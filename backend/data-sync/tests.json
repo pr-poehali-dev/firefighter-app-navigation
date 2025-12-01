@@ -1,0 +1,32 @@
+{
+  "tests": [
+    {
+      "name": "Get all data",
+      "method": "GET",
+      "path": "/?type=all",
+      "expectedStatus": 200,
+      "expectedBody": {
+        "buildings": "array",
+        "water_sources": "array",
+        "active_calls": "array"
+      },
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "Get only buildings",
+      "method": "GET",
+      "path": "/?type=buildings",
+      "expectedStatus": 200,
+      "expectedBody": {
+        "buildings": "array"
+      },
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "Handle OPTIONS for CORS",
+      "method": "OPTIONS",
+      "path": "/",
+      "expectedStatus": 200
+    }
+  ]
+}
