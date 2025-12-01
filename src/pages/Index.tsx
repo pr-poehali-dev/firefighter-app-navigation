@@ -4,6 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Icon from '@/components/ui/icon';
+import YandexMap from '@/components/YandexMap';
 
 const Index = () => {
   const [selectedBuilding, setSelectedBuilding] = useState<number | null>(1);
@@ -71,6 +72,34 @@ const Index = () => {
 
   const currentBuilding = buildings.find(b => b.id === selectedBuilding);
 
+  const mapMarkers = [
+    {
+      id: 'fire-1',
+      coordinates: [37.6173, 55.7558] as [number, number],
+      type: 'fire' as const,
+      title: 'Место пожара',
+      description: buildings[0].name,
+    },
+    {
+      id: 'hydrant-1',
+      coordinates: [37.6155, 55.7565] as [number, number],
+      type: 'hydrant' as const,
+      title: 'ПГ-46',
+    },
+    {
+      id: 'hydrant-2',
+      coordinates: [37.6189, 55.7542] as [number, number],
+      type: 'water' as const,
+      title: 'ПВ-12',
+    },
+    {
+      id: 'building-1',
+      coordinates: [37.6160, 55.7548] as [number, number],
+      type: 'building' as const,
+      title: buildings[1].name,
+    },
+  ];
+
   return (
     <div className="min-h-screen bg-background">
       <header className="bg-primary text-primary-foreground p-4 shadow-lg">
@@ -108,55 +137,14 @@ const Index = () => {
             </CardHeader>
             <CardContent className="p-0 relative">
               <div className="aspect-video bg-muted relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-green-50">
-                  <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                    <div className="relative">
-                      <div className="absolute animate-ping">
-                        <Icon name="MapPin" size={48} className="text-primary" />
-                      </div>
-                      <Icon name="MapPin" size={48} className="text-primary" />
-                    </div>
-                  </div>
-                  
-                  <div className="absolute top-1/4 left-1/3">
-                    <Icon name="Droplets" size={32} className="text-blue-600" />
-                  </div>
-                  <div className="absolute top-2/3 right-1/3">
-                    <Icon name="Droplets" size={32} className="text-blue-600" />
-                  </div>
-                  <div className="absolute bottom-1/4 left-1/4">
-                    <Icon name="Building2" size={40} className="text-secondary" />
-                  </div>
-                  <div className="absolute top-1/3 right-1/4">
-                    <Icon name="Building2" size={40} className="text-secondary" />
-                  </div>
+                <YandexMap 
+                  markers={mapMarkers}
+                  center={[37.6173, 55.7558]}
+                  zoom={15}
+                  className="w-full h-full"
+                />
 
-                  <svg className="absolute inset-0 w-full h-full opacity-20">
-                    <line x1="10%" y1="10%" x2="90%" y2="10%" stroke="currentColor" strokeWidth="2" />
-                    <line x1="10%" y1="30%" x2="90%" y2="30%" stroke="currentColor" strokeWidth="2" />
-                    <line x1="10%" y1="50%" x2="90%" y2="50%" stroke="currentColor" strokeWidth="2" />
-                    <line x1="10%" y1="70%" x2="90%" y2="70%" stroke="currentColor" strokeWidth="2" />
-                    <line x1="10%" y1="90%" x2="90%" y2="90%" stroke="currentColor" strokeWidth="2" />
-                    <line x1="20%" y1="5%" x2="20%" y2="95%" stroke="currentColor" strokeWidth="2" />
-                    <line x1="40%" y1="5%" x2="40%" y2="95%" stroke="currentColor" strokeWidth="2" />
-                    <line x1="60%" y1="5%" x2="60%" y2="95%" stroke="currentColor" strokeWidth="2" />
-                    <line x1="80%" y1="5%" x2="80%" y2="95%" stroke="currentColor" strokeWidth="2" />
-                  </svg>
-                </div>
-
-                <div className="absolute top-4 right-4 flex flex-col gap-2">
-                  <Button size="icon" variant="secondary" className="shadow-lg">
-                    <Icon name="Plus" size={20} />
-                  </Button>
-                  <Button size="icon" variant="secondary" className="shadow-lg">
-                    <Icon name="Minus" size={20} />
-                  </Button>
-                  <Button size="icon" variant="secondary" className="shadow-lg">
-                    <Icon name="Locate" size={20} />
-                  </Button>
-                </div>
-
-                <div className="absolute bottom-4 left-4 bg-card p-3 rounded-lg shadow-lg border">
+                <div className="absolute bottom-4 left-4 bg-card p-3 rounded-lg shadow-lg border z-10">
                   <div className="flex items-center gap-2 text-sm font-medium">
                     <Icon name="Navigation" size={16} className="text-primary" />
                     <span>Расстояние до объекта: 2.4 км</span>
